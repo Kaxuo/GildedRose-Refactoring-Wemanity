@@ -44,4 +44,69 @@ describe('Gilded Rose', function () {
       }
     });
   });
+
+  describe('Sulfurus (Legendary Item)', () => {
+    it('Quality and SellIn do not change', () => {
+      const gildedRose = new Shop([new Item('Sulfuras, Hand of Ragnaros', 0, 80), new Item('Sulfuras, Hand of Ragnaros', -1, 80)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toBe(0);
+      expect(items[0].quality).toBe(80);
+      expect(items[1].sellIn).toBe(-1);
+      expect(items[1].quality).toBe(80);
+    });
+  });
+
+  describe('Backstage passes', () => {
+    it('Increases in Quality as its SellIn value gets closer to 0', () => {
+      const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 15, 10)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toBe(14);
+      expect(items[0].quality).toBe(11);
+    });
+    it('Increases Quality by 2 if SellIn is 10 or lower', () => {
+      const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 10, 10)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toBe(9);
+      expect(items[0].quality).toBe(12);
+    });
+    it('Increases Quality by 3 if SellIn is 5 or lower', () => {
+      const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 5, 10)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toBe(4);
+      expect(items[0].quality).toBe(13);
+    });
+    it('drops to 0 Quality after the concert', function () {
+      const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 0, 40)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toBe(-1);
+      expect(items[0].quality).toBe(0);
+    });
+  });
+
+  // Same Purpose as above, just with less lines but more unclear
+  // describe('Backstage passes', () => {
+  //   it('Increases in Quality by 1 if SellIn is 10 or above, Increases Quality by 2 if SellIn is between 10 and 5, Increases Quality by 3 if SellIn is 5 or below, Quality gets to 0 after SellIn gets to 0', () => {
+  //     let prevQuality = 10;
+  //     const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 15, prevQuality)]);
+  //     for (let day = 0; day < 16; day++) {
+  //       const items = gildedRose.updateQuality();
+  //       let expectedResult =
+  //         (items[0].quality == prevQuality + 1 && items[0].sellIn >= 10) ||
+  //         (items[0].quality == prevQuality + 2 && items[0].sellIn < 10 && items[0].sellIn >= 5) ||
+  //         (items[0].quality == prevQuality + 3 && items[0].sellIn <= 5) ||
+  //         items[0].quality == 0;
+  //       expect(expectedResult).toBe(true);
+  //       prevQuality = items[0].quality;
+  //     }
+  //   });
+  // });
+
+  describe('Conjured Item', () => {
+    it('Quality decreases twice as fast as normal items', () => {
+      const gildedRose = new Shop([new Item('Conjured Mana Cake', 3, 6)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toBe(2);
+      expect(items[0].quality).toBe(4);
+    });
+  });
 });

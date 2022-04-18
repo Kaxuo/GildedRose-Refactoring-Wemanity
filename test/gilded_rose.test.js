@@ -109,4 +109,25 @@ describe('Gilded Rose', function () {
       expect(items[0].quality).toBe(4);
     });
   });
+
+  describe('Multiple Items', () => {
+    it('should return the correct result', () => {
+      const storeItems = [
+        new Item('+5 Dexterity Vest', 10, 20),
+        new Item('Aged Brie', 2, 0),
+        new Item('Elixir of the Mongoose', 5, 7),
+        new Item('Sulfuras, Hand of Ragnaros', 0, 80),
+        new Item('Backstage passes to a TAFKAL80ETC concert', 15, 20),
+      ];
+      const gildedRose = new Shop(storeItems);
+      const items = gildedRose.updateQuality();
+      expect(items).toEqual([
+        new Item('+5 Dexterity Vest', 9, 19),
+        new Item('Aged Brie', 1, 1),
+        new Item('Elixir of the Mongoose', 4, 6),
+        new Item('Sulfuras, Hand of Ragnaros', 0, 80),
+        new Item('Backstage passes to a TAFKAL80ETC concert', 14, 21),
+      ]);
+    });
+  });
 });

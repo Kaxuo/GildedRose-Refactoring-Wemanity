@@ -82,25 +82,22 @@ describe('Gilded Rose', () => {
       expect(items[0].sellIn).toBe(-1);
       expect(items[0].quality).toBe(0);
     });
+    // Same Purpose as above, just with less lines but more unclear
+    it('All Of the Above but together', () => {
+      let prevQuality = 10;
+      const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 15, prevQuality)]);
+      for (let day = 0; day < 16; day++) {
+        const items = gildedRose.updateQuality();
+        let expectedResult =
+          (items[0].quality == prevQuality + 1 && items[0].sellIn >= 10) ||
+          (items[0].quality == prevQuality + 2 && items[0].sellIn < 10 && items[0].sellIn >= 5) ||
+          (items[0].quality == prevQuality + 3 && items[0].sellIn <= 5) ||
+          items[0].quality == 0;
+        expect(expectedResult).toBe(true);
+        prevQuality = items[0].quality;
+      }
+    });
   });
-
-  // Same Purpose as above, just with less lines but more unclear
-  // describe('Backstage passes', () => {
-  //   it('Increases in Quality by 1 if SellIn is 10 or above, Increases Quality by 2 if SellIn is between 10 and 5, Increases Quality by 3 if SellIn is 5 or below, Quality gets to 0 after SellIn gets to 0', () => {
-  //     let prevQuality = 10;
-  //     const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 15, prevQuality)]);
-  //     for (let day = 0; day < 16; day++) {
-  //       const items = gildedRose.updateQuality();
-  //       let expectedResult =
-  //         (items[0].quality == prevQuality + 1 && items[0].sellIn >= 10) ||
-  //         (items[0].quality == prevQuality + 2 && items[0].sellIn < 10 && items[0].sellIn >= 5) ||
-  //         (items[0].quality == prevQuality + 3 && items[0].sellIn <= 5) ||
-  //         items[0].quality == 0;
-  //       expect(expectedResult).toBe(true);
-  //       prevQuality = items[0].quality;
-  //     }
-  //   });
-  // });
 
   // Not implemented yet , maybe also add after sell in  < 0
   // describe('Conjured Item', () => {

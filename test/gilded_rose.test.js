@@ -76,14 +76,14 @@ describe('Gilded Rose', () => {
       expect(items[0].sellIn).toBe(4);
       expect(items[0].quality).toBe(13);
     });
-    it('drops to 0 Quality after the concert', function () {
+    it('drops to 0 Quality after the concert', () => {
       const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 0, 40)]);
       const items = gildedRose.updateQuality();
       expect(items[0].sellIn).toBe(-1);
       expect(items[0].quality).toBe(0);
     });
     // Same Purpose as above, just with less lines but more unclear
-    it('All Of the Above but together', () => {
+    it('All Of the Above but in the span of 16 days', () => {
       let prevQuality = 10;
       const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 15, prevQuality)]);
       for (let day = 0; day < 16; day++) {

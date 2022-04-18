@@ -99,15 +99,16 @@ describe('Gilded Rose', () => {
     });
   });
 
-  // Not implemented yet , maybe also add after sell in  < 0
-  // describe('Conjured Item', () => {
-  //   it('Quality decreases twice as fast as normal items', () => {
-  //     const gildedRose = new Shop([new Item('Conjured Mana Cake', 3, 6)]);
-  //     const items = gildedRose.updateQuality();
-  //     expect(items[0].sellIn).toBe(2);
-  //     expect(items[0].quality).toBe(4);
-  //   });
-  // });
+  describe('Conjured Item', () => {
+    it('Quality decreases twice as fast as normal items', () => {
+      const gildedRose = new Shop([new Item('Conjured Mana Cake', 3, 6), new Item('Conjured Mana Cake', 0, 6)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].sellIn).toBe(2);
+      expect(items[0].quality).toBe(4);
+      expect(items[1].sellIn).toBe(-1);
+      expect(items[1].quality).toBe(2);
+    });
+  });
 
   describe('Multiple Items', () => {
     it('should return the correct result', () => {

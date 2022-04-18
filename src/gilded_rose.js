@@ -1,4 +1,4 @@
-const { Legendary, BackStagePasses, AgedBries } = require('./item');
+const { Legendary, BackStagePasses, AgedBries, DefaultItem } = require('./item');
 
 class Shop {
   constructor(items = []) {
@@ -22,6 +22,9 @@ class Shop {
         this.items[i].update();
         continue;
       }
+      this.items[i] = new DefaultItem(this.items[i].name, this.items[i].sellIn, this.items[i].quality);
+      this.items[i].update();
+      continue;
       if (this.items[i].quality > 0) {
         this.items[i].quality = this.items[i].quality - 1;
       }

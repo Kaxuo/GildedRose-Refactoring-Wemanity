@@ -1,9 +1,9 @@
 const Item = require('./item');
 
-class AgedBries extends Item {
+class DefaultItem extends Item {
   updateQuality() {
     let value = 0;
-    this.sellIn < 0 ? (value = this.quality + 2) : (value = this.quality + 1);
+    this.sellIn < 0 ? (value = this.quality - 2) : (value = this.quality - 1);
     value < 0 && (value = 0);
     value > 50 && (value = 50);
     return value;
@@ -13,4 +13,4 @@ class AgedBries extends Item {
     this.quality = this.updateQuality();
   }
 }
-module.exports = AgedBries;
+module.exports = DefaultItem;

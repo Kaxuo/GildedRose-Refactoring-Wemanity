@@ -2,35 +2,23 @@ const { Legendary, BackStagePasses, AgedBries, DefaultItem, Conjured } = require
 
 class Shop {
   constructor(items = []) {
-    this.items = items;
+    this.items = items.map((item) => {
+      switch (true) {
+        case item.name.includes('Sulfuras'):
+          return new Legendary(item.name, item.sellIn, item.quality);
+        case item.name.includes('Backstage passes'):
+          return new BackStagePasses(item.name, item.sellIn, item.quality);
+        case item.name.includes('Aged Brie'):
+          return new AgedBries(item.name, item.sellIn, item.quality);
+        case item.name.includes('Conjured'):
+          return new Conjured(item.name, item.sellIn, item.quality);
+        default:
+          return new DefaultItem(item.name, item.sellIn, item.quality);
+      }
+    });
   }
   updateQuality() {
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].name)
-        if (this.items[i].name.includes('Sulfuras')) {
-          this.items[i] = new Legendary(this.items[i].name, this.items[i].sellIn, this.items[i].quality);
-          this.items[i].update();
-          continue;
-        }
-      if (this.items[i].name.includes('Backstage passes')) {
-        this.items[i] = new BackStagePasses(this.items[i].name, this.items[i].sellIn, this.items[i].quality);
-        this.items[i].update();
-        continue;
-      }
-      if (this.items[i].name.includes('Aged Brie')) {
-        this.items[i] = new AgedBries(this.items[i].name, this.items[i].sellIn, this.items[i].quality);
-        this.items[i].update();
-        continue;
-      }
-      if (this.items[i].name.includes('Conjured')) {
-        this.items[i] = new Conjured(this.items[i].name, this.items[i].sellIn, this.items[i].quality);
-        this.items[i].update();
-        continue;
-      }
-      this.items[i] = new DefaultItem(this.items[i].name, this.items[i].sellIn, this.items[i].quality);
-      this.items[i].update();
-      continue;
-    }
+    this.items.forEach((item) => item.update());
     return this.items;
   }
 }

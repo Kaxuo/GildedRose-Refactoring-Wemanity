@@ -99,7 +99,7 @@ describe('Gilded Rose', () => {
     });
   });
 
-  describe('Conjured Item', () => {
+  describe('Conjured Items', () => {
     it('Quality decreases twice as fast as normal items', () => {
       const gildedRose = new Shop([new Item('Conjured Mana Cake', 3, 6), new Item('Conjured Mana Cake', 0, 6)]);
       const items = gildedRose.updateQuality();

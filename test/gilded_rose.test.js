@@ -29,12 +29,17 @@ describe('Gilded Rose', () => {
   });
 
   describe('Aged Brie', () => {
+    it('Increases Quality instead of lowering it', () => {
+      const gildedRose = new Shop([new Item('Aged Brie', 2, 0)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].quality).toBe(1);
+    });
     it('Increases Quality by 2 instead of 1 when sellIn is 0 or lower', () => {
       const gildedRose = new Shop([new Item('Aged Brie', 0, 20)]);
       const items = gildedRose.updateQuality();
       expect(items[0].quality).toBe(22);
     });
-    it('Increases in Quality the older it gets but never above 50', () => {
+    it('Increases in Quality the older it gets in the span of 50 days but never above 50', () => {
       let prevQuality = 0;
       const gildedRose = new Shop([new Item('Aged Brie', 2, 0)]);
       for (let day = 0; day < 50; day++) {

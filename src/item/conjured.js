@@ -1,16 +1,13 @@
 const Item = require('./item');
+const { RangeMinMax } = require('../helpers');
 
 class Conjured extends Item {
   updateQuality() {
-    let value = 0;
-    this.sellIn < 0 ? (value = this.quality - 4) : (value = this.quality - 2);
-    value < 0 && (value = 0);
-    value > 50 && (value = 50);
-    return value;
+    return this.sellIn < 0 ? this.quality - 4 : this.quality - 2;
   }
   update() {
     this.sellIn -= 1;
-    this.quality = this.updateQuality();
+    this.quality = RangeMinMax(this.updateQuality());
   }
 }
 module.exports = Conjured;

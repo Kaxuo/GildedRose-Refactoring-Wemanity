@@ -39,7 +39,10 @@ describe('Gilded Rose', () => {
       const gildedRose = new Shop([new Item('Aged Brie', 2, 0)]);
       for (let day = 0; day < 50; day++) {
         const items = gildedRose.updateQuality();
-        let expectedResult = items[0].quality > prevQuality || items[0].quality === 50;
+        let expectedResult =
+          (items[0].sellIn >= 0 && items[0].quality <= 50 && items[0].quality == prevQuality + 1) ||
+          (items[0].sellIn < 0 && items[0].quality <= 50 && items[0].quality == prevQuality + 2) ||
+          items[0].quality == 50;
         expect(expectedResult).toBe(true);
         prevQuality = items[0].quality;
       }
@@ -82,17 +85,18 @@ describe('Gilded Rose', () => {
       expect(items[0].sellIn).toBe(-1);
       expect(items[0].quality).toBe(0);
     });
-    // Same Purpose as above, just with less lines but more unclear
-    it('All Of the Above but in the span of 16 days', () => {
-      let prevQuality = 10;
-      const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 15, prevQuality)]);
-      for (let day = 0; day < 16; day++) {
+
+    it('All Of the Above but in the span of 45 days', () => {
+      let prevQuality = 40;
+      const gildedRose = new Shop([new Item('Backstage passes to a TAFKAL80ETC concert', 40, prevQuality)]);
+      for (let day = 0; day < 45; day++) {
         const items = gildedRose.updateQuality();
         let expectedResult =
-          (items[0].quality == prevQuality + 1 && items[0].sellIn >= 10) ||
-          (items[0].quality == prevQuality + 2 && items[0].sellIn < 10 && items[0].sellIn >= 5) ||
-          (items[0].quality == prevQuality + 3 && items[0].sellIn <= 5) ||
-          items[0].quality == 0;
+          (items[0].sellIn >= 10 && items[0].quality == prevQuality + 1) ||
+          (items[0].sellIn >= 5 && items[0].quality == prevQuality + 2 && items[0].sellIn < 10) ||
+          (items[0].sellIn <= 5 && items[0].quality == prevQuality + 3) ||
+          items[0].quality == 0 ||
+          items[0].quality == 50;
         expect(expectedResult).toBe(true);
         prevQuality = items[0].quality;
       }

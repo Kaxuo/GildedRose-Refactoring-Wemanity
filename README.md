@@ -12,6 +12,16 @@ This is my solution for the refactoring of the "Gilded Rose Kata"
 npm install
 ```
 
+## Run the application
+
+- texttest_fixture.js file will be used
+
+- You can freely change the values of the items or the number of days in that specific file
+
+```sh
+node test/texttest_fixture.js
+```
+
 ## Running tests
 
 To run all tests
